@@ -6,7 +6,7 @@ function [f]=form_poly(n_var,coeff,exponent)
 %   n_var  = number of variables in the system
 %   coeff  = mx1 vector of coefficients, m=number of terms
 %   exponent = nxm matrix of exponents
-%              n should be same as n_var
+%              n should be same as n_var 
 %              the mth column is the exponents of the mth term
 %
 % OUTPUT:
@@ -26,101 +26,96 @@ r=size(exponent,1);
 c=size(exponent,2);
 m=size(coeff,1);
 if r~=n_var
-    error(['number of unknown does NOT match number of exponents']);
+  error(['number of unknown does NOT match number of exponents']);
 end
 % form variable list
 x=cell(1,n_var);
 for ii=1:n_var
-    x{1,ii}=['x' num2str(ii)];
+  x{1,ii}=['x' num2str(ii)];
 end
 
 % looks like matrix multiplication
 monomial=cell(1,c);
 for ii=1:1
-    for jj=1:c
-        % ignore exponent is zero and 1
-        if (exponent(1,jj)==1)
-            temp=[x{ii,1}];
-        elseif (exponent(1,jj)==0)
-            temp=blanks(0);
-        else
-            temp=[x{ii,1} '**' num2str(exponent(1,jj))];
-        end
-        for kk=2:n_var
-            if (exponent(kk,jj)==1)
-                if (isempty(temp))
-                    temp = [x{ii,kk}];
-                else
-                    temp = [temp '*' x{ii,kk}];
-                end
-           elseif (exponent(kk,jj)~=0)
-                   if (isempty(temp))
-                      temp = [x{ii,kk} '**' num2str(exponent(kk,jj))];
-                   else
-                      temp = [temp '*' x{ii,kk} '**' num2str(exponent(kk,jj))];
-                  end
-
-              else
-                  temp=[temp];
-           end
-        end
-        if (coeff(jj,1)~=1)
-
-            if (coeff(jj,1)<0)
-                if (isempty(temp))
-                    monomial{ii,jj}=[' ' num2str(real(coeff(jj,1)))];
-                else
-                    monomial{ii,jj}=[' ' num2str(real(coeff(jj,1))) '*' temp];
-                end
-            else % >0 case, coeff. is not possible to be 0
-                if (isempty(temp))
-                    monomial{ii,jj}=[' + ' num2str(real(coeff(jj,1)))];
-                else
-                    monomial{ii,jj}=[' + ' num2str(real(coeff(jj,1))) '*' temp];
-                end
-            end
-
-           if (imag(coeff(jj,1))~=0) % complex coeff.
-                if (isempty(temp))
-                    if(jj~=1)
-                        %monomial{ii,jj}=[' + (' num2str(real(coeff(jj,1))) '+' num2str(imag(coeff(jj,1))) '*i)'];
-                         if (imag(coeff(jj,1))<0)
-                              if (abs(imag(coeff(jj,1)))~=1)
-                                  monomial{ii,jj}=[' + (' num2str(real(coeff(jj,1))) num2str(imag(coeff(jj,1))) '*i)'];
-                              else
-                                  monomial{ii,jj}=[' + (' num2str(real(coeff(jj,1))) '-i)'];
-                              end
-                          else
-                              if (imag(coeff(jj,1))~=1)
-                                  monomial{ii,jj}=[' + (' num2str(real(coeff(jj,1))) '+' num2str(imag(coeff(jj,1))) '*i)'];
-                              else
-                                  monomial{ii,jj}=[' + (' num2str(real(coeff(jj,1))) '+'  'i)'];
-                              end
-                          end
-                    else
-                         monomial{ii,jj}=['(' num2str(real(coeff(jj,1))) '+' num2str(imag(coeff(jj,1))) '*i)'];
-                    end
-                elseif(jj~=1)
-                     if (imag(coeff(jj,1))<0)
-                          monomial{ii,jj}=[' + (' num2str(real(coeff(jj,1))) ' ' num2str(imag(coeff(jj,1))) '*i)' '*' temp];
-                     else
-                          monomial{ii,jj}=[' + (' num2str(real(coeff(jj,1))) '+' num2str(imag(coeff(jj,1))) '*i)' '*' temp];
-                     end
-                 else
-                     monomial{ii,jj}=['(' num2str(real(coeff(jj,1))) '+' num2str(imag(coeff(jj,1))) '*i)' '*' temp];
-                end
-            end
-
-        else % coeff ==1
-            if (isempty(temp))
-                monomial{ii,jj}=[' + 1'];
-            elseif(jj~=1)
-                monomial{ii,jj}=[' + ' temp];
-            else
-                monomial{ii,jj}=[temp];
-            end
-        end
+  for jj=1:c
+    % ignore exponent is zero and 1
+    if(exponent(1,jj)==1)
+      temp=[x{ii,1}];
+    elseif (exponent(1,jj)==0)
+      temp=blanks(0);
+    else
+      temp=[x{ii,1} '**' num2str(exponent(1,jj))];
     end
+    for kk=2:n_var
+      if (exponent(kk,jj)==1)
+        if (isempty(temp))
+          temp = [x{ii,kk}];
+        else
+          temp = [temp '*' x{ii,kk}];
+        end
+      elseif (exponent(kk,jj)~=0)
+        if (isempty(temp))
+          temp = [x{ii,kk} '**' num2str(exponent(kk,jj))];
+        else
+          temp = [temp '*' x{ii,kk} '**' num2str(exponent(kk,jj))];
+        end
+      else
+        temp=[temp];
+      end
+    end
+    if (coeff(jj,1)~=1)
+      if (coeff(jj,1)<0)
+        if (isempty(temp))
+          monomial{ii,jj}=[' ' num2str(real(coeff(jj,1)),'%16.14e')];
+        else
+          monomial{ii,jj}=[' ' num2str(real(coeff(jj,1)),'%16.14e') '*' temp];
+        end
+      else % >0 case, coeff. is not possible to be 0
+        if (isempty(temp))
+          monomial{ii,jj}=[' + ' num2str(real(coeff(jj,1)),'%16.14e')];
+        else
+          monomial{ii,jj}=[' + ' num2str(real(coeff(jj,1)),'%16.14e') '*' temp];
+        end
+      end
+      if (imag(coeff(jj,1))~=0) % complex coeff.
+        if (isempty(temp))
+          if(jj~=1)
+            if (imag(coeff(jj,1))<0)
+              if (abs(imag(coeff(jj,1)))~=1)
+                monomial{ii,jj}=[' + (' num2str(real(coeff(jj,1)),'%16.14e') num2str(imag(coeff(jj,1)),'%16.14e') '*i)'];
+              else
+                monomial{ii,jj}=[' + (' num2str(real(coeff(jj,1)),'%16.14e') '-i)'];
+              end
+            else
+              if (imag(coeff(jj,1))~=1)
+                monomial{ii,jj}=[' + (' num2str(real(coeff(jj,1)),'%16.14e') '+' num2str(imag(coeff(jj,1)),'%16.14e') '*i)'];
+              else
+                monomial{ii,jj}=[' + (' num2str(real(coeff(jj,1)),'%16.14e') '+'  'i)'];
+              end
+            end
+          else
+            monomial{ii,jj}=['(' num2str(real(coeff(jj,1)),'%16.14e') '+' num2str(imag(coeff(jj,1)),'%16.14e') '*i)'];
+          end
+        elseif(jj~=1)
+          if (imag(coeff(jj,1))<0)
+            monomial{ii,jj}=[' + (' num2str(real(coeff(jj,1)),'%16.14e') ' ' num2str(imag(coeff(jj,1)),'%16.14e') '*i)' '*' temp];
+          else
+            monomial{ii,jj}=[' + (' num2str(real(coeff(jj,1)),'%16.14e') '+' num2str(imag(coeff(jj,1)),'%16.14e') '*i)' '*' temp];
+          end
+        else
+          monomial{ii,jj}=['(' num2str(real(coeff(jj,1)),'%16.14e') '+' num2str(imag(coeff(jj,1)),'%16.14e') '*i)' '*' temp];
+        end
+      end
+    else % coeff ==1
+      if (isempty(temp))
+        monomial{ii,jj}=[' + 1'];
+      elseif(jj~=1)
+        monomial{ii,jj}=[' + ' temp];
+      else
+        monomial{ii,jj}=[temp];
+      end
+    end
+  end
 end
 
 % sum all terms
