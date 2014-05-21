@@ -22,6 +22,9 @@ function [f]=form_poly(n_var,coeff,exponent)
 %             0 2 0]
 % function returns a polynomial x1*x3**2 + x2*x4**2 + (0.16009+0.9871*i)
 %
+% This version of form_poly uses cmplx2str provided by Bor Plestenjak
+% on Monday 19 May 2014.
+%
 r=size(exponent,1);
 c=size(exponent,2);
 m=size(coeff,1);
