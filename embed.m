@@ -36,7 +36,7 @@ global phcloc
 global phctemp
 rand('seed',sum(100*clock));
 sr = num2str(round(10^8*rand(1,1)));
-erbose = 0;
+verbose = 0;
 if(verbose)
      fprintf('embedding the given system ... please wait ...\n');
 end
