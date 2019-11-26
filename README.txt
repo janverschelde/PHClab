@@ -37,14 +37,22 @@ Windows and Linux. On an Apple laptop running Mac OS X version 10.3.7,
 we executed PHClab in Octave 2.1.57.
 
 To install and use PHClab, execute the following steps:
-1. download the appropriate executable of phc;
-2. download the PHClab distribution;
+1. download the appropriate executable of phc, from http://homepages.math.uic.edu/~jan/download.html
+2. download the PHClab distribution (this repository).
 3. add PHClab to the path of MATLAB (or Octave).
+for e.g. addpath('C:\Users\user_name\Downloads\PHClab-master\PHClab-master\')
+
+
 The first command of PHClab which one must execute is set_phcpath.
 This command takes one argument: the full path name of where the
 program phc can be found.  Type help "set_phcpath" for more info.
 
-Note: please use "/" in the path even it is for Windows machine.
+Note: please use the windows path format for Windows machine, for e.g.
+set_phcpath('C:\Users\user_name\Downloads\phc.exe')
+
+Note:
+you can convert symbolic equations to PHClab compatible format, by using the project:
+https://www.mathworks.com/matlabcentral/fileexchange/49112-matlab-to-phclab
 
 Recommended Reading:
 "PHClab: A MATLAB/Octave Interface to PHCpack"
